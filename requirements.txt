@@ -3,3 +3,4 @@ openai
 numpy
 pandas
 faiss-cpu
+gpt4all
