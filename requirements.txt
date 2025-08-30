@@ -1,4 +1,5 @@
 streamlit
-openaistreamlit
 openai
-
+numpy
+pandas
+faiss-cpu
