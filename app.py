@@ -10,7 +10,9 @@ import numpy as np
 MODEL_PATH = r"C:\Users\Minh Tran\AppData\Local\nomic.ai\GPT4All\Meta-Llama-3-8B-Instruct.Q4_0.gguf"
 model = GPT4All(MODEL_PATH)
 
-st.title("Chat with Your Dataset (GovGPT)")
+st.logo("GovAsk logo darkbg.png", size="large")
+st.title("Chat with Your Dataset - GovAsk")
+
 
 # Step 1: Upload dataset
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -30,6 +32,7 @@ if uploaded_file:
     index.add(emb_matrix)
     id_to_doc = {i: docs[i] for i in range(len(docs))}
     
+    st.write("Embeddings generated and indexed.")
 
     # Step 2: Chat input
     if "history" not in st.session_state:
@@ -53,10 +56,15 @@ if uploaded_file:
         D, I = index.search(q_emb, k=3)
         retrieved_text = " ".join([id_to_doc[i] for i in I[0]])
 
+        
+
         with model.chat_session():
             response = model.generate(
                 f"""
                 You are a helpful assistant that analyzes tabular data.
+                You must not answer question for data that doesn't not pertain to the dataset, if encounter just say "I cannot answer question outside of this dataset".
+                After every answer always show the step that you take to get the answer.
+                Answer as concise as possible
                 Dataset columns: {list(df.columns)}=
                 Dataset retrieved rows: {retrieved_text}
 
