@@ -4,3 +4,4 @@ numpy
 pandas
 faiss-cpu
 gpt4all
+nomic
